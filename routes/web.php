@@ -13,6 +13,4 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return 'hello world';
-});
+$router->post('/produk','ProdukController@create');
