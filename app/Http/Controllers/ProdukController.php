@@ -14,6 +14,13 @@ class ProdukController extends Controller
         return response()->json($produk);
     }
 
+    public function show($id)
+    {
+        $produk    = Produk::find($id);
+
+        return response()->json($produk);
+    }
+
     public function create(Request $request)
     {
         $this->validate($request,[
