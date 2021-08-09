@@ -14,6 +14,7 @@
 */
 
 $router->post('/register','UserController@register');
+$router->post('/login','UserController@login');
 
 $router->get('/produk','ProdukController@index');
 $router->get('/produk/{id}','ProdukController@show');
