@@ -40,7 +40,7 @@ class ProdukController extends Controller
         $produk     = Produk::find($id);
         //cek apakah ada data dengan id yang diinputkan atau tidak
         if (!$produk) {
-            return response()->json(['message'=>'Produk not found.!',404]);
+            return response()->json(['message'=>'Produk not found.!'],404);
         }
 
         $this->validate($request,[
@@ -65,7 +65,7 @@ class ProdukController extends Controller
         $produk     = Produk::find($id);
         //jika produk dengan id diinginkan tidak ada maka beri respon produk tidak ada
         if (!$produk) {
-            return response()->json(['message'=>'Produk not found!',404]);
+            return response()->json(['message'=>'Produk not found!'],404);
         }
         //jika ada produk dengan id yang diinginkan maka hapus produk tersebut dan beri respon
         $produk->delete();
