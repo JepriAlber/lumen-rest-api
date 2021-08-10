@@ -15,15 +15,31 @@ class ProdukController extends Controller
     public function index()
     {
         $produk    = Produk::all();
-        
-        return response()->json($produk);
+        //kirim data dengan res api get format json untuk menampilkan data produk
+        return response()->json([
+            'succeess'  => True,
+            'message'   => 'Data Produk',
+            'data'      => $produk
+        ],200);
     }
 
     public function show($id)
     {
         $produk    = Produk::find($id);
-
-        return response()->json($produk);
+        //jika data ada maka kirim data dengan rest api get format json jika tidak kosongkan data yang ditampilkan
+            if ($produk) {
+                return response()->json([
+                    'success'   => True,
+                    'message'   => 'Detail Produk',
+                    'data'      => $produk
+                ],200);
+            }else{
+                return response()->json([
+                    'success'   => False,
+                    'message'   => 'Produk not found!',
+                    'data'      => ''
+                ],404);
+            }
     }
 
     public function create(Request $request)
@@ -37,7 +53,21 @@ class ProdukController extends Controller
         ]);
         $data   = $request->all();
         $produk = Produk::create($data);
-        return response()->json($produk);
+            //jika data berhasil disimpan maka kirim respon kalau data berhasil dikirimkan dengan status 201
+            if ($produk) {
+                return response()->json([
+                    'success'   => True,
+                    'message'   => 'Data save successfully!',
+                    'data'      => $produk
+                ],201);
+            }else{
+                return response()->json([
+                    'success'   => True,
+                    'message'   => 'Data failed to save',
+                    'data'      => ''
+                ],400);
+            }
+            
     }
     
     public function update(Request $request,$id){
@@ -45,7 +75,11 @@ class ProdukController extends Controller
         $produk     = Produk::find($id);
         //cek apakah ada data dengan id yang diinputkan atau tidak
         if (!$produk) {
-            return response()->json(['message'=>'Produk not found.!'],404);
+            return response()->json([
+                'success'   => False,
+                'message'   =>'Produk not found.!',
+                'data'      => ''
+            ],404);
         }
 
         $this->validate($request,[
@@ -61,8 +95,21 @@ class ProdukController extends Controller
         $produk->fill($data);
         //simpan data yang diset ke databases
         $produk->save();
-
-        return response()->json($produk);
+        //jika produk berhasil di edit maka kirim respon
+        if ($produk) {
+            return response()->json([
+                'success'   => True,
+                'message'   => 'Data changed successfully',
+                'data'      => $produk
+            ],201);
+        }else{
+            return response()->json([
+                'success'   => True,
+                'message'   => 'Data failed to changed!',
+                'data'      => ''
+            ],400);
+        }
+        
     }
 
     public function destroy($id)
@@ -70,10 +117,17 @@ class ProdukController extends Controller
         $produk     = Produk::find($id);
         //jika produk dengan id diinginkan tidak ada maka beri respon produk tidak ada
         if (!$produk) {
-            return response()->json(['message'=>'Produk not found!'],404);
+            return response()->json([
+                'success'   => False,
+                'message'   => 'Produk not found!',
+                'data'      => ''
+            ],404);
         }
         //jika ada produk dengan id yang diinginkan maka hapus produk tersebut dan beri respon
         $produk->delete();
-        return response()->json(['message'=>'Produk delete successfully']);
+        return response()->json([
+            'success'   => True,
+            'message'   => 'Produk delete successfully'
+        ],200);
     }
 }
