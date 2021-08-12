@@ -30,7 +30,7 @@ class KatagoriController extends Controller
                 ],200);
             }else{
                 return response()->json([
-                    'success' => True,
+                    'success' => False,
                     'message' => 'Katagori not found!',
                     'data'    => ''
                 ],404);
@@ -53,12 +53,46 @@ class KatagoriController extends Controller
                 ],201);
             }else{
                 return response()->json([
-                    'success'   => True,
+                    'success'   => False,
                     'message'   => 'Data failed to save',
                     'data'      => ''
                 ],400);
             }
+    }
 
-
+    public function update(Request $request, $id)
+    {
+        //cek terlebih dahulu apakah data dengan id yang di inginkan ada atau tidak jika tidak ada kasih respon jika ada lanjutkan proses
+        $katagori   = Katagori::find($id);
+            if (!$katagori) {
+                return response()->json([
+                    'success' => False,
+                    'message' => 'Data Katagori not found!',
+                    'data'    => ''
+                ],404);
+            }
+        $this->validate($request,[
+            'jenis_katagori' => 'string|required'
+        ]);
+        $data   = $request->all();
+        //isi data sesuai model
+        $katagori->fill($data);
+        //simpan kedatabase
+        $katagori->save();
+            //beri respon kalau data berhasil atau gagal
+            if ($katagori) {
+                return response()->json([
+                    'success' => True,
+                    'message' => 'Data changed successfully!',
+                    'data'    => $katagori,
+                ],201);
+            }else{
+                return response()->json([
+                    'success'   => False,
+                    'message'   => 'Data failed to changed!',
+                    'data'      => ''
+                ],400);
+            }
+            
     }
 }

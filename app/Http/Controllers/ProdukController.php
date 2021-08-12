@@ -62,7 +62,7 @@ class ProdukController extends Controller
                 ],201);
             }else{
                 return response()->json([
-                    'success'   => True,
+                    'success'   => False,
                     'message'   => 'Data failed to save',
                     'data'      => ''
                 ],400);
@@ -104,7 +104,7 @@ class ProdukController extends Controller
             ],201);
         }else{
             return response()->json([
-                'success'   => True,
+                'success'   => False,
                 'message'   => 'Data failed to changed!',
                 'data'      => ''
             ],400);
