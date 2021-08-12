@@ -16,8 +16,13 @@
 $router->post('/register','UserController@register');
 $router->post('/login','UserController@login');
 
-$router->get('/produk','ProdukController@index');
-$router->get('/produk/{id}','ProdukController@show');
-$router->post('/produk','ProdukController@create');
-$router->put('/produk/{id}','ProdukController@update');
-$router->delete('/produk/{id}','ProdukController@destroy');
+$router->group(['prefix' => 'tokobaju'], function() use ($router){
+    
+    $router->get('/produk',['uses' => 'ProdukController@index']);
+    $router->get('/produk/{id}',['uses' => 'ProdukController@show']);
+    $router->post('/produk',['uses' => 'ProdukController@create']);
+    $router->put('/produk/{id}',['uses' => 'ProdukController@update']);
+    $router->delete('/produk/{id}',['uses' => 'ProdukController@destroy']);
+    
+});
+
