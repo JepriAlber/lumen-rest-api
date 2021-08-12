@@ -18,6 +18,24 @@ class KatagoriController extends Controller
         ],200);
 
     }
+
+    public function show($id)
+    {
+        $katagori   = Katagori::find($id);
+            if ($katagori) {
+                return response()->json([
+                    'success' => True,
+                    'message' => 'Detail Katagori',
+                    'data'    => $katagori
+                ],200);
+            }else{
+                return response()->json([
+                    'success' => True,
+                    'message' => 'Katagori not found!',
+                    'data'    => ''
+                ],404);
+            }
+    }
     
     public function create(Request $request)
     {
