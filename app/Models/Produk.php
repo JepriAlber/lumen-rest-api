@@ -7,13 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Produk extends Model 
 {
     protected $table ='produk';
+    protected $primaryKey = 'produk_id';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'nama', 'harga','warna','kondisi','deskripsi'
+        'katagori_id','nama', 'harga','warna','kondisi','deskripsi'
     ];
+    
+    public function katagori()
+    {
+        return $this->belongsTo(Katagori::class,'katagori_id','produk_id');
+    }
     
 }

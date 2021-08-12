@@ -16,6 +16,7 @@
 $router->post('/register','UserController@register');
 $router->post('/login','UserController@login');
 
+//mengelompokan route, akses url menjadi awalan https/tokobaju/
 $router->group(['prefix' => 'tokobaju'], function() use ($router){
     
     $router->get('/produk',['uses' => 'ProdukController@index']);
