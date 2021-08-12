@@ -24,6 +24,7 @@ $router->group(['prefix' => 'tokobaju'], function() use ($router){
     $router->get('/katagori/{id}',['uses' => 'KatagoriController@show']);
     $router->post('/katagori',['uses' => 'KatagoriController@create']);
     $router->put('/katagori/{id}',['uses' => 'KatagoriController@update']);
+    $router->delete('/katagori/{id}',['uses' => 'KatagoriController@destroy']);
     //-----------------route untuk produk----------------
     $router->get('/produk',['uses' => 'ProdukController@index']);
     $router->get('/produk/{id}',['uses' => 'ProdukController@show']);

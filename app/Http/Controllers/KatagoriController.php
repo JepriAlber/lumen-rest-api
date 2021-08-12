@@ -95,4 +95,23 @@ class KatagoriController extends Controller
             }
             
     }
+
+    public function destroy($id)
+    {
+        $katagori   = Katagori::find($id);
+        //cek apakah data dengan id diinginkan ada atau tidak
+            if (!$katagori) {
+                return response()->json([
+                    'success' => False,
+                    'message' => 'Data katagori not found!',
+                    'data'    => ''
+                ],200);
+            }
+        //jika  data ditemukan lanjutkan proses delete data
+        $katagori->delete();
+        return response()->json([
+            'success'   => True,
+            'message'   => 'Produk delete successfully'
+        ],200);    
+    }
 }
