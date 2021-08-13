@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 
 class ProdukController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     public function index()
     {
-        $produk    = Produk::all();
+        $produk    = Produk::with(['katagori'])->get();
         //kirim data dengan res api get format json untuk menampilkan data produk
         return response()->json([
             'succeess'  => True,

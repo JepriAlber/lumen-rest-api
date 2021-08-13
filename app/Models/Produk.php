@@ -19,7 +19,7 @@ class Produk extends Model
     
     public function katagori()
     {
-        return $this->belongsTo(Katagori::class,'katagori_id','produk_id');
+        return $this->belongsTo(Katagori::class,'katagori_id','katagori_id');
     }
 
     public function galeri()
