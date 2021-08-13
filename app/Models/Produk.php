@@ -21,5 +21,10 @@ class Produk extends Model
     {
         return $this->belongsTo(Katagori::class,'katagori_id','produk_id');
     }
+
+    public function galeri()
+    {
+        return $this->hasMany(Galeri::class,'produk_id','produk_id');
+    }
     
 }
