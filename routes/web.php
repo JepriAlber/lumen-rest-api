@@ -33,6 +33,7 @@ $router->group(['prefix' => 'tokobaju'], function() use ($router){
     $router->delete('/produk/{id}',['uses' => 'ProdukController@destroy']);
     //--------------------route galeri produk---------------------
     $router->get('/produk/galeri',['uses' => 'GaleriController@index']);
+    $router->post('/produk/galeri',['uses' => 'GaleriController@create']);
     
 });
 
