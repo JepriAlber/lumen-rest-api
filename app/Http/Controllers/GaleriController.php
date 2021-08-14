@@ -57,8 +57,8 @@ class GaleriController extends Controller
                 $namaGambarBaru = $namaGambar.'_'.time().'.'.$fileExt;
                 //simpan gambarnya di public/gambar_produk
                 $request->file('gambar')->move('gambar_produk',$namaGambarBaru);
-                //isi data[gambar] dengan nama gambar produk baru beserta lokasi tempat penyimpanan gambar
-                $data['gambar'] = url('gambar_produk/'.$namaGambarBaru);
+                //isi data[gambar] dengan nama gambar yang baru
+                $data['gambar'] = $namaGambarBaru;
                 
                     //cek terespon data apakah sudah sesuai dengan keinginan atau tidak
                     // return response()->json($data['gambar']);
