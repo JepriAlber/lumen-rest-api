@@ -23,6 +23,8 @@ class GaleriController extends Controller
     public function show($id)
     {
         $gambarProduk   = Galeri::find($id);
+        //beri nama gambar dan alamat letak gambarnya
+        $gambarProduk['gambar'] = url('gambar_produk/'.$gambarProduk['gambar']);
         if ($gambarProduk) {
                 return response()->json([
                     'success'   => True,
