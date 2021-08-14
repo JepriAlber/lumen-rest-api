@@ -20,6 +20,24 @@ class GaleriController extends Controller
             }
     }
 
+    public function show($id)
+    {
+        $gambarProduk   = Galeri::find($id);
+        if ($gambarProduk) {
+                return response()->json([
+                    'success'   => True,
+                    'message'   => 'Detail gambar produk',
+                    'data'      => $gambarProduk
+                ],200);               
+            }else{
+                return response()->json([
+                    'success'   => False,
+                    'message'   => 'Gambar produk not found!',
+                    'data'      => ''
+                ],404);
+            }
+    }
+
     public function create(Request $request)
     {
         $this->validate($request,[
@@ -67,5 +85,6 @@ class GaleriController extends Controller
                 ],400);
             }
     }
+    
 
 }

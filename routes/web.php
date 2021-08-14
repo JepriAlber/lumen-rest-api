@@ -25,15 +25,16 @@ $router->group(['prefix' => 'tokobaju'], function() use ($router){
     $router->post('/katagori',['uses' => 'KatagoriController@create']);
     $router->put('/katagori/{id}',['uses' => 'KatagoriController@update']);
     $router->delete('/katagori/{id}',['uses' => 'KatagoriController@destroy']);
+    //--------------------route galeri produk---------------------
+    $router->get('/produk/galeri',['uses' => 'GaleriController@index']);
+    $router->get('/produk/galeri/{id}',['uses' => 'GaleriController@show']);
+    $router->post('/produk/galeri',['uses' => 'GaleriController@create']);
     //-----------------route untuk produk----------------
     $router->get('/produk',['uses' => 'ProdukController@index']);
     $router->get('/produk/{id}',['uses' => 'ProdukController@show']);
     $router->post('/produk',['uses' => 'ProdukController@create']);
     $router->put('/produk/{id}',['uses' => 'ProdukController@update']);
     $router->delete('/produk/{id}',['uses' => 'ProdukController@destroy']);
-    //--------------------route galeri produk---------------------
-    $router->get('/produk/galeri',['uses' => 'GaleriController@index']);
-    $router->post('/produk/galeri',['uses' => 'GaleriController@create']);
     
 });
 
