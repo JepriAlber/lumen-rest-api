@@ -37,5 +37,6 @@ $router->group(['prefix' => 'tokobaju'], function() use ($router){
     $router->get('/galeri/produk/{id}',['uses' => 'GaleriController@show']);
     $router->post('/galeri/produk',['uses' => 'GaleriController@create']);
     $router->put('/galeri/produk/{id}',['uses' => 'GaleriController@update']);
+    $router->delete('/galeri/produk/{id}',['uses' => 'GaleriController@destroy']);
 });
 

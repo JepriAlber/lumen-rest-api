@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Galeri;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\PseudoTypes\False_;
 
 class GaleriController extends Controller
 {
@@ -159,5 +160,22 @@ class GaleriController extends Controller
         
     }
     
+    public function destroy($id)
+    {
+        $galeri = Galeri::find($id);
+            
+            if (!$galeri) {
+                return response()->json([
+                    'success' => False,
+                    'message' => 'Data not found!',
+                    'data'    => ''
+                ],404);
+            }
+        $galeri->delete();
+        return response()->json([
+            'success' => True,
+            'message' => 'Galeri delete successfully'
+        ],200);
+    }
 
 }
