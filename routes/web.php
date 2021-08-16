@@ -33,8 +33,8 @@ $router->group(['prefix' => 'tokobaju'], function() use ($router){
     $router->put('/produk/{id}',['uses' => 'ProdukController@update']);
     $router->delete('/produk/{id}',['uses' => 'ProdukController@destroy']);
     
-    $router->get('/galeri/produk/{id}',['uses' => 'GaleriController@show']);
     $router->get('/galeri/produk',['uses' => 'GaleriController@index']);
+    $router->get('/galeri/produk/{id}',['uses' => 'GaleriController@show']);
     $router->post('/galeri/produk',['uses' => 'GaleriController@create']);
     $router->put('/galeri/produk/{id}',['uses' => 'GaleriController@update']);
 });

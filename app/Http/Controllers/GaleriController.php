@@ -24,8 +24,6 @@ class GaleriController extends Controller
     {
         $gambarProduk   = Galeri::find($id);
         if ($gambarProduk) {
-            //beri nama gambar dan alamat letak gambarnya
-            $gambarProduk['gambar'] = url('gambar_produk/'.$gambarProduk['gambar']);
             return response()->json([
                     'success'   => True,
                     'message'   => 'Detail gambar produk',
@@ -59,11 +57,9 @@ class GaleriController extends Controller
                 $namaGambarBaru = $namaGambar.'_'.time().'.'.$fileExt;
                 //simpan gambarnya di public/gambar_produk
                 $request->file('gambar')->move('gambar_produk',$namaGambarBaru);
-                //isi data[gambar] dengan nama gambar yang baru
-                $data['gambar'] = $namaGambarBaru;
+                //isi data[gambar] dengan nama gambar yang baru beserta lokasi
+                $data['gambar'] = url('gambar_produk'.'/'.$namaGambarBaru);
                 
-                    //cek terespon data apakah sudah sesuai dengan keinginan atau tidak
-                    // return response()->json($data['gambar']);
             }else{
                 return response()->json([
                     'success' => False,
@@ -111,23 +107,18 @@ class GaleriController extends Controller
         return response()->json($data);
             // lakukan pengecekan terlebih dahulu apakah data baru menggunakan gambar yang baru atau gambar lama
             if ($request->hasFile('gambar')) {
-                $namaAsli       = $request->file('gambar')->getClientOriginalName();
+                //nama asli gambar
+                $namaAsli      =  $request->file('gambar')->getClientOriginalName();
                 //pisahkan nama file dengan extensinya
                 $explode        = explode('.',$namaAsli);
                 $namaGambar     = $explode[1];
-                $fileExt        = $request->file('gambar')->getClientOriginalExtension();
+                $fileExt       = $request->file('gambar')->getClientOriginalExtension();
                 $namaGambarBaru = $namaGambar.'_'.time().'.'.$fileExt;
                 //simpan gambarnya di public/gambar_produk
                 $request->file('gambar')->move('gambar_produk',$namaGambarBaru);
+                //isi data[gambar] dengan nama gambar yang baru beserta lokasi
+                $data['gambar'] = url('gambar_produk'.'/'.$namaGambarBaru);
 
-                        //hapus gambar lama ganti dengan gambar baru
-                        $gambarLama     = url('gambar_produk/',$data['gambar']);
-                            if (file_exists($gambarLama)) {
-                                unlink($gambarLama);
-                            }
-
-                //isi data[gambar] dengan nama gambar yang baru
-                $data['gambar'] = $namaGambarBaru;
                 //simpan data baru tampa gambar baru
                 $galeri->fill($data);
                 $galeri->save();
