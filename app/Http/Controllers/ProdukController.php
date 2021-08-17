@@ -101,7 +101,7 @@ class ProdukController extends Controller
                 'success'   => True,
                 'message'   => 'Data changed successfully',
                 'data'      => $produk
-            ],201);
+            ],200);
         }else{
             return response()->json([
                 'success'   => False,
@@ -110,6 +110,24 @@ class ProdukController extends Controller
             ],400);
         }
         
+    }
+    //method atau fungsi yang digunakan untk menampilkan produk pictures, one to many
+    public function images($id)
+    {
+        $produk     = Produk::with(['galeri'])->where('produk_id','=',$id)->get();
+            if ($produk) {
+                return response()->json([
+                    'success' => True,
+                    'message' => 'Product pictures',
+                    'data'    => $produk
+                ],201);
+            }else{
+                return response()->json([
+                    'success' => False,
+                    'message' => 'Data not found',
+                    'data'    => ''
+                ],404);
+            }
     }
 
     public function destroy($id)
