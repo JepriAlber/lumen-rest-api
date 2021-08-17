@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Galeri;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\PseudoTypes\False_;
+use Illuminate\Support\Facades\File;
 
 class GaleriController extends Controller
 {
@@ -53,7 +53,7 @@ class GaleriController extends Controller
                 $namaAsli      =  $request->file('gambar')->getClientOriginalName();
                 //pisahkan nama file dengan extensinya
                 $explode        = explode('.',$namaAsli);
-                $namaGambar     = $explode[1];
+                $namaGambar     = $explode[0];
                 $fileExt       = $request->file('gambar')->getClientOriginalExtension();
                 $namaGambarBaru = $namaGambar.'_'.time().'.'.$fileExt;
                 //simpan gambarnya di public/gambar_produk
@@ -171,6 +171,17 @@ class GaleriController extends Controller
                     'data'    => ''
                 ],404);
             }
+        
+        //pisahkan url gambar untuk mendapatkan lokasi storage dan nama gambarnya
+        $urlGambar = explode('/',$galeri['gambar']);
+        //maka dapatlat lokasi gambar beserta gambarnya
+        $destination = $urlGambar[3].'/'.$urlGambar[4];
+            //cek terlebih dahulu apakah ada file gambar atau tidak
+            if (File::exists($destination)) {
+                //jika ada hapus gambar di storage
+                File::delete($destination);
+            }
+        
         $galeri->delete();
         return response()->json([
             'success' => True,
