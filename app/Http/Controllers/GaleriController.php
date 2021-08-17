@@ -120,6 +120,16 @@ class GaleriController extends Controller
                 //isi data[gambar] dengan nama gambar yang baru beserta lokasi
                 $data['gambar'] = url('gambar_produk'.'/'.$namaGambarBaru);
 
+                        //pisahkan url gambar untuk mendapatkan lokasi storage dan nama gambarnya
+                $urlGambar = explode('/',$galeri['gambar']);
+                //maka dapatlat lokasi gambar beserta gambarnya
+                $destination = $urlGambar[3].'/'.$urlGambar[4];
+                    //cek terlebih dahulu apakah ada file gambar atau tidak
+                    if (File::exists($destination)) {
+                        //jika ada hapus gambar di storage
+                        File::delete($destination);
+                    }
+
                 //simpan data baru tampa gambar baru
                 $galeri->fill($data);
                 $galeri->save();
