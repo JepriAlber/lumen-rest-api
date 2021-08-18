@@ -39,6 +39,7 @@ class ProdukController extends Controller
 
     public function create(Request $request)
     {
+        //mengecek terlebih dahulu data inputan dengan validasi yang sudah ditentukan
         $this->validate($request,[
             'nama'      => 'required|string',
             'harga'     => 'required|integer',
@@ -46,7 +47,9 @@ class ProdukController extends Controller
             'kondisi'   => 'required|in:baru,lama',
             'deskripsi' => 'string'
         ]);
+        //tampung data inputan dengan varibel data
         $data   = $request->all();
+        //simpan data yang ada di variabel data ke tabel produk
         $produk = Produk::create($data);
             //jika data berhasil disimpan maka kirim respon kalau data berhasil dikirimkan dengan status 201
             if ($produk) {
@@ -66,7 +69,7 @@ class ProdukController extends Controller
     }
     
     public function update(Request $request,$id){
-        
+        //ambil data produk dengan id yang diingkan
         $produk     = Produk::find($id);
         //cek apakah ada data dengan id yang diinputkan atau tidak
         if (!$produk) {
@@ -76,7 +79,7 @@ class ProdukController extends Controller
                 'data'      => ''
             ],404);
         }
-
+        //lalu kemudian lakukan validasi ke data yang dinputkan
         $this->validate($request,[
             'nama'      => 'string',
             'harga'     => 'integer',
@@ -84,7 +87,7 @@ class ProdukController extends Controller
             'kondisi'   => 'in:baru,lama',
             'deskripsi' => 'string'
         ]);
-
+        //simpan data yang sudah divalidasi ke variabel data
         $data       = $request->all();
         //isi data di model
         $produk->fill($data);
@@ -109,6 +112,7 @@ class ProdukController extends Controller
     //method atau fungsi yang digunakan untk menampilkan produk pictures, one to many
     public function images($id)
     {
+        //ambil semua gambar yang yang dimiliki oleh prodak dengan id yang diinginkan, one to many
         $produk     = Produk::with(['galeri'])->where('produk_id','=',$id)->get();
             if ($produk) {
                 return response()->json([
@@ -127,6 +131,7 @@ class ProdukController extends Controller
 
     public function destroy($id)
     {
+        //ambil data dengan id yang diinginkan dan simpan di varibel produk
         $produk     = Produk::find($id);
         //jika produk dengan id diinginkan tidak ada maka beri respon produk tidak ada
         if (!$produk) {

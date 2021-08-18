@@ -10,12 +10,13 @@ class GaleriController extends Controller
 {
     public function index()
     {   
+        //ambil semua data di tabel galeri dan simpan di tampung varibel gambar
         $gambar     = Galeri::all();
-            
+            //kirim data dengan format json
             if ($gambar) {
                 return response()->json([
                     'success'   => True,
-                    'message'   => 'Data gambar produk',
+                    'message'   => 'Data images produk',
                     'data'      => $gambar
                 ],200);
             }
@@ -23,29 +24,32 @@ class GaleriController extends Controller
 
     public function show($id)
     {
+        //ambil semua data galeri dengan id yang inginkan dan di tampung divariabel gambarproduk
         $gambarProduk   = Galeri::find($id);
-        if ($gambarProduk) {
-            return response()->json([
-                    'success'   => True,
-                    'message'   => 'Detail gambar produk',
-                    'data'      => $gambarProduk
-                ],200);               
-            }else{
+            //kemudian sebelum kirim data lakukan pengecekan terlebih dahulu
+            if ($gambarProduk) {
                 return response()->json([
-                    'success'   => False,
-                    'message'   => 'Gambar produk not found!',
-                    'data'      => ''
-                ],404);
-            }
+                        'success'   => True,
+                        'message'   => 'Detail images produk',
+                        'data'      => $gambarProduk
+                    ],200);               
+                }else{
+                    return response()->json([
+                        'success'   => False,
+                        'message'   => 'Images produk not found!',
+                        'data'      => ''
+                    ],404);
+                }
     }
 
     public function create(Request $request)
     {
+        //lakukan validasi data yang diinputkan
         $this->validate($request,[
             'produk_id'     => 'required',
             'gambar'        => 'file|mimes:jpg,jpeg,png|max:2280|required'
         ]);
-
+        //tampung data yang sudah di validasi dengan varibel data
         $data   = $request->all();
             //cek apakah ada foto atau tidak
             if ($request->hasFile('gambar')) {
@@ -54,21 +58,24 @@ class GaleriController extends Controller
                 //pisahkan nama file dengan extensinya
                 $explode        = explode('.',$namaAsli);
                 $namaGambar     = $explode[0];
+                //ambil extension gambar apakah dia png, jpeg ,dll
                 $fileExt       = $request->file('gambar')->getClientOriginalExtension();
+                //lakukan perobahan nama gambar
                 $namaGambarBaru = $namaGambar.'_'.time().'.'.$fileExt;
                 //simpan gambarnya di public/gambar_produk
                 $request->file('gambar')->move('gambar_produk',$namaGambarBaru);
-                //isi data[gambar] dengan nama gambar yang baru beserta lokasi
-                $data['gambar'] = url('gambar_produk'.'/'.$namaGambarBaru);
-                
-            }else{
+                //isi data[gambar] dengan nama gambar yang baru beserta lokasi url dan akan disimpan ke tabel
+                $data['gambar'] = url('gambar_produk'.'/'.$namaGambarBaru);    
+            }
+            //jika user tidak menginputkan gambar maka kirim response
+            else{
                 return response()->json([
                     'success' => False,
-                    'message' => 'Gambar not found!',
+                    'message' => 'Images not found!',
                     'data'    => ''
                 ],404);
             }
-
+        //lalu simpan data ditabel galeri
         $gambarProduk   = Galeri::create($data);
             if ($gambarProduk) {
                 return response()->json([
@@ -89,6 +96,7 @@ class GaleriController extends Controller
     {
         //lakukan pengecekan data terlebih dahulu apakah data ada dengan id yang diinginkan
         $galeri    = Galeri::find($id);
+            //jika data tidak ditemukan maka beri respon
             if (!$galeri) {
                 return response()->json([
                     'status'    => False,
@@ -96,13 +104,12 @@ class GaleriController extends Controller
                     'data'      => '' 
                 ],404);
             }
-
+        //lakukan validasi kepada data yang diinputkan
         $this->validate($request,[
             'produk_id'     => 'required',
             'gambar'        => 'file|mimes:jpg,jpeg,png|max:2280'
         ]);
-    
-
+        //simpan data yang sudah divalidasi ke variabel data
         $data       = $request->all();
 
         return response()->json($data);
@@ -133,7 +140,7 @@ class GaleriController extends Controller
                 //simpan data baru tampa gambar baru
                 $galeri->fill($data);
                 $galeri->save();
-
+                    //lakukan pengecekan apakah data berhasil disimpang di tabel atau tidak
                     if ($galeri) {
                         return response()->json([
                             'success'   => True,
@@ -152,7 +159,7 @@ class GaleriController extends Controller
                 //simpan data baru tampa gambar baru
                 $galeri->fill($data);
                 $galeri->save();
-
+                    //lakukan pengecekan apakah data berhasil disimpan atau tidak
                     if ($galeri) {
                         return response()->json([
                             'success'   => True,
@@ -172,8 +179,9 @@ class GaleriController extends Controller
     
     public function destroy($id)
     {
+        //ambil data galeri dengan id yang diingkan dan simpan di varibel galeri
         $galeri = Galeri::find($id);
-            
+            //jika data tidak ada dengan id yang tidak dinginkan maka beri respon
             if (!$galeri) {
                 return response()->json([
                     'success' => False,
@@ -191,7 +199,7 @@ class GaleriController extends Controller
                 //jika ada hapus gambar di storage
                 File::delete($destination);
             }
-        
+        //lakukan delete data
         $galeri->delete();
         return response()->json([
             'success' => True,
